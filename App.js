@@ -2,6 +2,7 @@ import {FlatList, StyleSheet, Text, View} from 'react-native';
 import {useState} from "react";
 import Header from "./components/header";
 import TodoItem from "./components/todoItem";
+import AddToDo from "./components/addToDo";
 
 export default function App() {
     const [todos, setTodos] = useState([
@@ -21,6 +22,12 @@ export default function App() {
         <View style={styles.container}>
             <Header/>
             <View style={styles.content}>
+                <AddToDo addToDo={(text) => {
+                    setTodos((prevTodos) => {
+                        return [{toDo: text, key: Math.random().toString()}, ...prevTodos];
+                    });
+                }
+                }/>
                 <View style={styles.list}>
                     {
                         todos.map(item => (
