@@ -1,4 +1,4 @@
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {Alert, FlatList, Keyboard, StyleSheet, TouchableWithoutFeedback, Text, View} from 'react-native';
 import {useState} from "react";
 import Header from "./components/header";
 import TodoItem from "./components/todoItem";
@@ -18,25 +18,35 @@ export default function App() {
         });
     }
 
+    const addToDo = (text) => {
+        if (text.length > 3) {
+            setTodos((prevTodos) => {
+                return [{toDo: text, key: Math.random().toString()}, ...prevTodos];
+            });
+        } else {
+            Alert.alert('OOPS!', 'Todo must be over 3 characters long.', [{text: 'Okay'}]);
+        }
+    }
+
     return (
-        <View style={styles.container}>
-            <Header/>
-            <View style={styles.content}>
-                <AddToDo addToDo={(text) => {
-                    setTodos((prevTodos) => {
-                        return [{toDo: text, key: Math.random().toString()}, ...prevTodos];
-                    });
-                }
-                }/>
-                <View style={styles.list}>
-                    {
-                        todos.map(item => (
-                            <TodoItem key={item.key} item={item} pressHandler={pressHandler}/>
-                        ))
-                    }
+        <TouchableWithoutFeedback onPress={() => {
+            Keyboard.dismiss();
+        }
+        }>
+            <View style={styles.container}>
+                <Header/>
+                <View style={styles.content}>
+                    <AddToDo addToDo={addToDo}/>
+                    <View style={styles.list}>
+                        {
+                            todos.map(item => (
+                                <TodoItem key={item.key} item={item} pressHandler={pressHandler}/>
+                            ))
+                        }
+                    </View>
                 </View>
             </View>
-        </View>
+        </TouchableWithoutFeedback>
     );
 }
 
