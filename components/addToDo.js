@@ -1,8 +1,8 @@
-import React from "react";
+import React, {useState} from "react";
 import {StyleSheet, Text, View, TextInput, Button} from "react-native";
 
-export default function AddToDo({ addToDo }) {
-    const [value, setValue] = React.useState("");
+export default function AddToDo({addToDo}) {
+    const [value, setValue] = useState("");
 
     const pressHandler = () => {
         if (value.trim()) {
